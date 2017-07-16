@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<android.support.v7.widget.CardView
+    android:elevation="4dp"
+    android:layout_margin="4dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_margin="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_gravity="right"
+            android:id="@+id/list_item_img"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@drawable/logo"
+            android:scaleType="centerCrop"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:layout_marginLeft="4dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/list_item_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:lines="1"
+                android:text="Hello World!!!"
+                android:textColor="@color/primary_text"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/list_item_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:lines="3"
+                android:text="Привет это тестовый текст для верстки лайота. Сюда будет сеттитатя описания новостей.а справа будет картинка"
+                android:textStyle="normal"
+                android:textSize="12sp"
+                android:textColor="@color/secondary_text"/>
+            <TextView
+                android:id="@+id/list_item_when"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="5 сентября 2017 года, 14:00 мск"
+                android:textColor="@color/primary"
+                android:textStyle="italic"
+                android:layout_margin="2dp"
+                android:textSize="12sp"
+                android:layout_gravity="end|bottom"/>
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>
+
+
+</LinearLayout>
