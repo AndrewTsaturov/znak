@@ -21,13 +21,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        startService(new Intent(MainActivity.this, NewsParcer.class));
+        NewsParcer parcer = new NewsParcer();
+
+        parcer.onBind(new Intent());
+
+        parcer.onUnbind(new Intent());
 
         NewsHandler handler = new NewsHandler(getApplicationContext());
         ArrayList<Znak> loadedNews = handler.loadNews();
 
-        for (int i = 0; i < loadedNews.size(); i++)
-        Log.d("ZNAKKK", "" + loadedNews.get(i).getHeader());
 
         ListView newsToShow = (ListView) findViewById(R.id.list_of_news);
 
