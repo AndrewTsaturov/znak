@@ -57,10 +57,10 @@ public class NewsAdapter extends BaseAdapter {
               datetime.setText(newsList.get(position).getDatetime());
               //FIXME check adapter
 
-              if(newsList.get(position).getImageLink() != null){
-                  mainImage = (ImageView) rootView.findViewById(R.id.list_item_img);
-                  mainImage.setImageBitmap(getBitmapFromURL(newsList.get(position).getImageLink()));
-              }
+//              if(newsList.get(position).getImageLink() != null){
+//                  mainImage = (ImageView) rootView.findViewById(R.id.list_item_img);
+//                  mainImage.setImageBitmap(getBitmapFromURL(newsList.get(position).getImageLink()));
+//              }
           }
           else {
               rootView = View.inflate(parent.getContext(), R.layout.news_item, null);
@@ -74,10 +74,10 @@ public class NewsAdapter extends BaseAdapter {
               datetime = (TextView) rootView.findViewById(R.id.list_item_when);
               datetime.setText(newsList.get(position).getDatetime());
 
-              if(newsList.get(position).getImageLink() != null){
-                  mainImage = (ImageView) rootView.findViewById(R.id.list_item_img);
-                  mainImage.setImageBitmap(getBitmapFromURL(newsList.get(position).getImageLink()));
-              }
+//              if(newsList.get(position).getImageLink() != null){
+//                  mainImage = (ImageView) rootView.findViewById(R.id.list_item_img);
+//                  mainImage.setImageBitmap(getBitmapFromURL(newsList.get(position).getImageLink()));
+//              }
           }
         }
         return rootView;

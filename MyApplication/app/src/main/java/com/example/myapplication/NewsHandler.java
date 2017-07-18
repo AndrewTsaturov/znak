@@ -39,7 +39,6 @@ public class NewsHandler extends SQLiteOpenHelper {
                 cv.put(ZnakDB.LINK_ID, event.getLink());
                 cv.put(ZnakDB.HEADER_ID, event.getHeader());
                 cv.put(ZnakDB.DESCRIPTION_ID, event.getDescription());
-                cv.put(ZnakDB.HEADER_ID, event.getDescription());
                 cv.put(ZnakDB.DATETIME, event.getDatetime());
                 cv.put(ZnakDB.IMAGE_LINK_ID, event.getImageLink());
                 db.insert(ZnakDB.TABLE_NAME, null, cv);
@@ -50,7 +49,8 @@ public class NewsHandler extends SQLiteOpenHelper {
     public ArrayList<Znak> loadNews(){
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(ZnakDB.GET_TABLE_FOR_CURSOR, null);
-        showItems();
+        columnsNames();
+        //showItems();
         ArrayList<Znak> loadedNews = new ArrayList<>();
         while (cursor.moveToNext()){
             Znak item = new Znak();
@@ -63,7 +63,7 @@ public class NewsHandler extends SQLiteOpenHelper {
             item.setImageLink(cursor.getString(6));
             loadedNews.add(item);
         }
-        Log.d("NEWS COUNT", "" + loadedNews.size());
+        //Log.d("NEWS COUNT", "" + loadedNews.size());
         return loadedNews;
     }
 
@@ -71,7 +71,7 @@ public class NewsHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(ZnakDB.GET_TABLE_FOR_CURSOR, null);
         while (cursor.moveToNext()){
-            Log.d("LINK", cursor.getString(2));
+            Log.d("LINK", cursor.getString(3));
         }
     }
 
@@ -89,5 +89,12 @@ public class NewsHandler extends SQLiteOpenHelper {
         else k = true;
 
         return k;
+    }
+
+    public void columnsNames(){
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(ZnakDB.GET_TABLE_FOR_CURSOR, null);
+        for(int i = 0; i < cursor.getColumnNames().length; i++)
+            Log.d("СТОЛБЦЫ", cursor.getColumnNames()[i]);
     }
 }

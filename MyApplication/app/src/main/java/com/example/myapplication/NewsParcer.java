@@ -1,8 +1,10 @@
 package com.example.myapplication;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Binder;
 import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
@@ -24,6 +26,8 @@ import static org.jsoup.Jsoup.*;
 
 public class NewsParcer extends Service {
 
+
+    private final IBinder mBinder = new MyBinder();
 
     Elements znaknews;
     NewsHandler handler;
@@ -68,16 +72,12 @@ public class NewsParcer extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        dataBaseWrite();
-        stopSelf();
-        return super.onStartCommand(intent, flags, startId);
+        return START_STICKY;
     }
 
     @Override
     public IBinder onBind(Intent intent) {
-        dataBaseWrite();
-        stopSelf();
-        return onBind(intent);
+         return mBinder;
     }
 
     public String imgLink(String attr){
@@ -86,8 +86,8 @@ public class NewsParcer extends Service {
         return result;
     }
 
-    public void dataBaseWrite(){
-        handler = new NewsHandler(getApplicationContext());
+    public void dataBaseLoad(Context context){
+        handler = new NewsHandler(context);
 
         NewsLoader loader = new NewsLoader();
         loader.execute();
@@ -106,8 +106,12 @@ public class NewsParcer extends Service {
             handler.addNews(newsBuffer.get(i));
             Log.d("ЗАГОЛОВКИ", newsBuffer.get(i).getHeader());
         }
+        Log.d("НОВОСТЕЙ ЗАгружено", "" + newsBuffer.size());
+        handler.showItems();
+    }
 
-        Log.d("НОВОСТЕЙ ЗАгружено", "" + newsBuffer.size());}
+
+
 
     private class NewsLoader extends AsyncTask<Void, Void, ArrayList<Znak>>{
 
@@ -162,4 +166,12 @@ public class NewsParcer extends Service {
         }
     }
 
+
+
+
+    public class MyBinder extends Binder{
+        NewsParcer getServise(){
+            return NewsParcer.this;
+        }
+    }
 }
