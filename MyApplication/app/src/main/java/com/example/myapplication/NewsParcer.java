@@ -20,6 +20,7 @@ import org.jsoup.select.Elements;
 import java.io.FileDescriptor;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 import static org.jsoup.Jsoup.*;
@@ -72,7 +73,13 @@ public class NewsParcer extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        return START_STICKY;
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                dataBaseLoad(getApplicationContext());
+            }
+        };
+        return START_NOT_STICKY;
     }
 
     @Override

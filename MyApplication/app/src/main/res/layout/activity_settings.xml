@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.myapplication.SettingsActivity">
+    <TextView
+        android:text="@string/settings_header"
+        android:layout_gravity="center"
+        android:textColor="@color/primary_text"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_margin="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
-</android.support.constraint.ConstraintLayout>
+
+</LinearLayout>

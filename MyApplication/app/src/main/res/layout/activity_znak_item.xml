@@ -6,9 +6,8 @@
     android:layout_height="match_parent"
     tools:context="com.example.myapplication.ZnakItemActivity"
     android:orientation="vertical">
-<ScrollView
+<WebView
+    android:id="@+id/znak_item_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-</ScrollView>
+    android:layout_height="match_parent"/>
 </LinearLayout>

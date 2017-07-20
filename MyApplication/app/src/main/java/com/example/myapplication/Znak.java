@@ -22,6 +22,7 @@ public class Znak {
     public static String DATE_TIME_SPLIT_REGULAR = "T";
     public static String DATE_TIME_DISPLAY_BINDING = " года, ";
     public static String DEFAULT_TIMEZONE = " мск";
+    public static String INTENT_KEY = "ITEM_URL";
 
     public Znak() {
     }

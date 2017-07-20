@@ -15,7 +15,7 @@
             android:orientation="horizontal">
             <ImageView
                 android:layout_gravity="right"
-                android:id="@+id/list_item_img"
+                android:id="@+id/list_item_img_b"
                 android:layout_width="96dp"
                 android:layout_height="96dp"
                 android:src="@drawable/logo"
@@ -28,7 +28,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/list_item_header"
+                    android:id="@+id/list_item_header_b"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
@@ -39,7 +39,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/list_item_when"
+                    android:id="@+id/list_item_when_b"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="5 сентября 2017 года, 14:00 мск"

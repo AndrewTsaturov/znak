@@ -2,23 +2,31 @@ package com.example.myapplication;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Андрей on 14.07.2017.
  */
 
 public class NewsAdapter extends BaseAdapter {
+
     ArrayList<Znak> newsList = new ArrayList<>();
 
     public NewsAdapter(ArrayList<Znak> news) {
@@ -31,7 +39,7 @@ public class NewsAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public Znak getItem(int position) {
         return newsList.get(position);
     }
 
@@ -42,58 +50,48 @@ public class NewsAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        TextView header, decription, datetime;
-        ImageView mainImage;
-        View rootView = convertView;
-        if(rootView == null){
-          if(newsList.get(position).getDescription() == null){
+        View rootViev = convertView;
+        Znak show = newsList.get(position);
+        Log.d("DVIEW_BUFFER", "" + show.getHeader());
 
-              rootView = View.inflate(parent.getContext(), R.layout.news_item_b, null);
+        if (show.getDescription() != null) {
+            rootViev = View.inflate(parent.getContext(), R.layout.news_item, null);
 
-              header = (TextView) rootView.findViewById(R.id.list_item_header);
-              header.setText(newsList.get(position).getHeader());
+        } else {
+            rootViev = View.inflate(parent.getContext(), R.layout.news_item_b, null);
 
-              datetime = (TextView) rootView.findViewById(R.id.list_item_when);
-              datetime.setText(newsList.get(position).getDatetime());
-              //FIXME check adapter
-
-//              if(newsList.get(position).getImageLink() != null){
-//                  mainImage = (ImageView) rootView.findViewById(R.id.list_item_img);
-//                  mainImage.setImageBitmap(getBitmapFromURL(newsList.get(position).getImageLink()));
-//              }
-          }
-          else {
-              rootView = View.inflate(parent.getContext(), R.layout.news_item, null);
-
-              header = (TextView) rootView.findViewById(R.id.list_item_header);
-              header.setText(newsList.get(position).getHeader());
-
-              decription = (TextView) rootView.findViewById(R.id.list_item_description);
-              decription.setText(newsList.get(position).getDescription());
-
-              datetime = (TextView) rootView.findViewById(R.id.list_item_when);
-              datetime.setText(newsList.get(position).getDatetime());
-
-//              if(newsList.get(position).getImageLink() != null){
-//                  mainImage = (ImageView) rootView.findViewById(R.id.list_item_img);
-//                  mainImage.setImageBitmap(getBitmapFromURL(newsList.get(position).getImageLink()));
-//              }
-          }
         }
-        return rootView;
+
+
+        if (show.getDescription() != null) {
+            TextView fullheader = (TextView) rootViev.findViewById(R.id.list_item_header);
+            fullheader.setText(show.getHeader());
+
+            TextView decription = (TextView) rootViev.findViewById(R.id.list_item_description);
+            decription.setText(show.getDescription());
+
+            TextView fullTime = (TextView) rootViev.findViewById(R.id.list_item_when);
+            fullTime.setText(show.getDatetime());
+
+            if (show.getImageLink() != null) {
+                ImageView fullImage = (ImageView) rootViev.findViewById(R.id.list_item_img);
+                Picasso.with(parent.getContext()).load(show.getImageLink()).into(fullImage);
+                }
+            }
+            else {
+                TextView header = (TextView) rootViev.findViewById(R.id.list_item_header_b);
+                header.setText(show.getHeader());
+
+                TextView time = (TextView) rootViev.findViewById(R.id.list_item_when_b);
+                time.setText(show.getDatetime());
+
+                if (show.getImageLink() != null) {
+                    ImageView image = (ImageView) rootViev.findViewById(R.id.list_item_img_b);
+                    Picasso.with(parent.getContext()).load(show.getImageLink()).into(image);
+                }
+            }
+            return rootViev;
+        }
+
     }
 
-    public static Bitmap getBitmapFromURL(String src) {
-        try {
-            URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
-        } catch (IOException e) {
-            return null;
-        }
-    }
-}

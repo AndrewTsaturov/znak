@@ -61,7 +61,7 @@ public class NewsHandler extends SQLiteOpenHelper {
             item.setDescription(cursor.getString(4));
             item.setDatetime(cursor.getString(5));
             item.setImageLink(cursor.getString(6));
-            loadedNews.add(item);
+            if(item.getHeader() != null) loadedNews.add(item);
         }
         //Log.d("NEWS COUNT", "" + loadedNews.size());
         return loadedNews;

@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">Новости ZNAK.COM</string>
     <string name="sourse_url">https://www.znak.com/all</string>
-
-    <string name="title_activity_fullscreen">FullscreenActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="menu_item_one">Настройки</string>
+    <string name="menu_item_two">Обновить</string>
+    <string name="settings_header">Настройки</string>
+    <string name="setting_update_check">Автоматическое обновление новостей</string>
+    <string name="setting_udpdate_period">Частота обновления новостей</string>
+    <string name="settings_update_notification">Уведомлять о новых новостях</string>
 </resources>
