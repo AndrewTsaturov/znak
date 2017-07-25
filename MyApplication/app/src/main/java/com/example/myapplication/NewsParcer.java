@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
@@ -20,6 +21,7 @@ import org.jsoup.select.Elements;
 import java.io.FileDescriptor;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
@@ -79,8 +81,17 @@ public class NewsParcer extends Service {
             @Override
             public void run() {
                 dataBaseLoad(getApplicationContext());
+                Log.d("ТАЙМЕР", "НОВСТИ ОБНОВЛЕНЫ");
             }
         };
+
+        SharedPreferences prefs = getSharedPreferences(Settings.SETTINGS, MODE_PRIVATE);
+
+        if(prefs.getBoolean(Settings.AUTO_UPDATE_CHECK_KEY, false)){
+            Timer timer = new Timer();
+            timer.scheduleAtFixedRate(timerTask, prefs.getLong(Settings.AUTO_UPDATE_PERIOD_KEY, Settings.tenMin),
+                    prefs.getLong(Settings.AUTO_UPDATE_PERIOD_KEY, Settings.tenMin));
+        }
         return START_NOT_STICKY;
     }
 

@@ -5,6 +5,15 @@
     <string name="menu_item_two">Обновить</string>
     <string name="settings_header">Настройки</string>
     <string name="setting_update_check">Автоматическое обновление новостей</string>
-    <string name="setting_udpdate_period">Частота обновления новостей</string>
+    <string name="setting_udpdate_period">Частота обновления новостей:</string>
     <string name="settings_update_notification">Уведомлять о новых новостях</string>
+
+    <string-array name="settings_interval_spinner_items">
+        <item>10 минут</item>
+        <item>15 минут</item>
+        <item>30 минут</item>
+        <item>1 час</item>
+        <item>12 часов</item>
+        <item>Раз в сутки</item>
+    </string-array>
 </resources>
