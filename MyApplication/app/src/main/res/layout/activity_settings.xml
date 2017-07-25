@@ -16,5 +16,40 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+    <android.support.v7.widget.SwitchCompat
+        android:id="@+id/setting_update_switch"
+        android:textStyle="bold"
+        android:textColor="@color/primary_text"
+        android:textSize="16sp"
+        android:padding="4dp"
+        android:text="@string/setting_update_check"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <View
+        android:background="@color/primary_text"
+        android:padding="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <TextView
+        android:textColor="@color/primary_text"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:text="@string/setting_udpdate_period"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <android.support.v7.widget.AppCompatSpinner
+        android:id="@+id/setting_spinner_interval"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <android.support.v7.widget.SwitchCompat
+        android:padding="4dp"
+        android:textStyle="bold"
+        android:textColor="@color/primary_text"
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_update_notification" />
 
 </LinearLayout>

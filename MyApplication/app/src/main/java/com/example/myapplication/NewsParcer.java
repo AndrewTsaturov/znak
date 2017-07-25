@@ -54,6 +54,8 @@ public class NewsParcer extends Service {
     public static String IMG_LINK_ATTR = "style";
     public static String IMG_LINK_PREFIX = "background-image: url(";
     public static String IMG_LING_SUFFIX = ")";
+    public static String IMG_LINK_HT = "https:";
+
     public static String DATE_TIME_QUERY = " :nth-child(2)";
     public static int DATE_TIME_INDEX = 1;
     public static String DATE_TIME_ATTR = "datetime";
@@ -159,7 +161,7 @@ public class NewsParcer extends Service {
                 Log.d("DATETIME", item.getDatetime());
                 if(newsSource.select(elementQuery + IMG_LINK_QUERY).size() != 0) {
                     String imgLinkAttr = newsSource.select(elementQuery + IMG_LINK_QUERY).get(0).attr(IMG_LINK_ATTR);
-                    item.setImageLink(imgLink(imgLinkAttr));
+                    item.setImageLink(IMG_LINK_HT + imgLink(imgLinkAttr));
                     Log.d("IMG!!!!!!!!", imgLink(imgLinkAttr));
                 }
                 znaks.add(item);
