@@ -7,6 +7,8 @@
     <string name="setting_update_check">Автоматическое обновление новостей</string>
     <string name="setting_udpdate_period">Частота обновления новостей:</string>
     <string name="settings_update_notification">Уведомлять о новых новостях</string>
+    <string name="notification_title">ZNAK.COM</string>
+    <string name="notification_text">Новых новостей </string>
 
     <string-array name="settings_interval_spinner_items">
         <item>10 минут</item>

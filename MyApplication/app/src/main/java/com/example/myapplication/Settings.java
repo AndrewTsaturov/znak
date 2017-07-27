@@ -12,6 +12,8 @@ public interface Settings {
 
     String AUTO_UPDATE_PERIOD_KEY = "auto update period";
 
+    String ACTUAL_NEWS_COUNT_KEY = "actual news";
+
     long tenMin = 600000;
     long fifteenMin = 900000;
     long thirtiMin = 1800000;

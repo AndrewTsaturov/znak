@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Binder;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Handler;
 
 import static org.jsoup.Jsoup.*;
 
@@ -31,6 +33,7 @@ public class NewsParcer extends Service {
 
 
     private final IBinder mBinder = new MyBinder();
+    ArrayList<Znak> newsBuffer = new ArrayList<>();
 
     Elements znaknews;
     NewsHandler handler;
@@ -62,7 +65,8 @@ public class NewsParcer extends Service {
     public static int DATE_TIME_INDEX = 1;
     public static String DATE_TIME_ATTR = "datetime";
 
-    public static boolean BACKGROUNG_EXECUTED = true;
+    public static String ACTUAL_NEWS_DETECTED = "newsDetected";
+
 
 
 
@@ -77,10 +81,33 @@ public class NewsParcer extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
+                SharedPreferences prefs = getSharedPreferences(Settings.SETTINGS, MODE_PRIVATE);
+
+                ArrayList<Znak> oldNews = new ArrayList<>();
+
+                if(prefs.getBoolean(Settings.NOTIFOCATION_CHECK_KEY, false)) {
+                    NewsHandler handler = new NewsHandler(getApplicationContext());
+                    oldNews = handler.loadNews();
+                    Log.d("ПРЕДЗАГРУЗКА", "" + oldNews.size());
+                }
                 dataBaseLoad(getApplicationContext());
+
+                if(oldNews.size() != 0){
+                int actualNews = newsCountChecker(oldNews);
+                    Log.d("ACTUAL", "" + actualNews);
+                if(actualNews > 0){
+                    Intent broadcastIntent = new Intent();
+                    broadcastIntent.setAction(ACTUAL_NEWS_DETECTED);
+                    broadcastIntent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+                    broadcastIntent.putExtra(Settings.ACTUAL_NEWS_COUNT_KEY, actualNews);
+                    sendBroadcast(broadcastIntent);
+                    Log.d("MESSAGE", "SENT");
+                }
+                }
                 Log.d("ТАЙМЕР", "НОВСТИ ОБНОВЛЕНЫ");
             }
         };
@@ -112,7 +139,6 @@ public class NewsParcer extends Service {
         NewsLoader loader = new NewsLoader();
         loader.execute();
 
-        ArrayList<Znak> newsBuffer = new ArrayList<>();
         Log.d("Запись данных", "буффер сброшен");
         try {
             newsBuffer = loader.get();
@@ -187,6 +213,11 @@ public class NewsParcer extends Service {
     }
 
 
+    public int newsCountChecker(ArrayList<Znak> oldNews){
+        int result;
+        result = oldNews.size() - newsBuffer.size();
+        return result;
+    }
 
 
     public class MyBinder extends Binder{
