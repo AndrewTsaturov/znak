@@ -80,33 +80,22 @@ public class NewsParcer extends Service {
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public int onStartCommand(Intent intent, final int flags, int startId) {
 
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
                 SharedPreferences prefs = getSharedPreferences(Settings.SETTINGS, MODE_PRIVATE);
 
-                ArrayList<Znak> oldNews = new ArrayList<>();
+                int actualNews = dataBaseUpdate(getApplicationContext());
 
-                if(prefs.getBoolean(Settings.NOTIFOCATION_CHECK_KEY, false)) {
-                    NewsHandler handler = new NewsHandler(getApplicationContext());
-                    oldNews = handler.loadNews();
-                    Log.d("ПРЕДЗАГРУЗКА", "" + oldNews.size());
-                }
-                dataBaseLoad(getApplicationContext());
-
-                if(oldNews.size() != 0){
-                int actualNews = newsCountChecker(oldNews);
-                    Log.d("ACTUAL", "" + actualNews);
-                if(actualNews > 0){
-                    Intent broadcastIntent = new Intent();
+                if(prefs.getBoolean(Settings.NOTIFOCATION_CHECK_KEY, false) && actualNews > 0) {
+                    Intent broadcastIntent = new Intent(NewsParcer.this, NewsReciever.class);
                     broadcastIntent.setAction(ACTUAL_NEWS_DETECTED);
                     broadcastIntent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
                     broadcastIntent.putExtra(Settings.ACTUAL_NEWS_COUNT_KEY, actualNews);
                     sendBroadcast(broadcastIntent);
                     Log.d("MESSAGE", "SENT");
-                }
                 }
                 Log.d("ТАЙМЕР", "НОВСТИ ОБНОВЛЕНЫ");
             }
@@ -156,7 +145,34 @@ public class NewsParcer extends Service {
         handler.showItems();
     }
 
+    public int dataBaseUpdate(Context context){
+        int actualNews = 0;
 
+        handler = new NewsHandler(context);
+
+        NewsLoader loader = new NewsLoader();
+        loader.execute();
+
+        Log.d("Запись данных", "буффер сброшен");
+        try {
+            newsBuffer = loader.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        for (int i = 0; i < newsBuffer.size(); i++){
+            if (handler.isChecked(context, newsBuffer.get(i))) {
+                actualNews = actualNews + 1;
+                Log.d("НОВАЯ НОВОСТЬ", newsBuffer.get(i).getHeader());
+            }
+            handler.addNews(newsBuffer.get(i));
+            Log.d("ЗАГОЛОВКИ", newsBuffer.get(i).getHeader());
+        }
+        Log.d("Новых новостей", "" + actualNews);
+        return actualNews;
+    }
 
 
     private class NewsLoader extends AsyncTask<Void, Void, ArrayList<Znak>>{

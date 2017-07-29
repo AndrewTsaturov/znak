@@ -91,6 +91,23 @@ public class NewsHandler extends SQLiteOpenHelper {
         return k;
     }
 
+    public boolean isChecked(Context context, Znak item){
+        NewsHandler handler = new NewsHandler(context);
+        Cursor cursor = handler.getReadableDatabase().rawQuery(ZnakDB.GET_TABLE_FOR_CURSOR, null);
+        byte flag = 0;
+        boolean k;
+
+        while (cursor.moveToNext()){
+
+            if(cursor.getInt(1) == item.getDataId()) flag = 1;
+
+        }
+        if (flag == 1)k = false;
+        else k = true;
+
+        return k;
+    }
+
     public void columnsNames(){
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(ZnakDB.GET_TABLE_FOR_CURSOR, null);
