@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -23,6 +24,8 @@ public class Znak {
     public static String DATE_TIME_DISPLAY_BINDING = " года, ";
     public static String DEFAULT_TIMEZONE = " мск";
     public static String INTENT_KEY = "ITEM_URL";
+
+    public static long THREE_HOURS_MILLIS = 10800000;
 
     public Znak() {
     }
@@ -104,6 +107,10 @@ public class Znak {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        Calendar buf = Calendar.getInstance();
+        buf.setTime(date);
+        buf.add(Calendar.HOUR_OF_DAY, 3);
+        date = buf.getTime();
         String[] buffer = newFormat.format(date).split(DATE_TIME_SPLIT_REGULAR);
         String result = buffer[0] + DATE_TIME_DISPLAY_BINDING + buffer[1] + DEFAULT_TIMEZONE;
         return result;

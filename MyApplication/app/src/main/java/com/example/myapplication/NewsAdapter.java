@@ -74,7 +74,7 @@ public class NewsAdapter extends BaseAdapter {
             fullTime.setText(show.getDatetime());
 
             if (show.getImageLink() != null) {
-                ImageView fullImage = (ImageView) rootViev.findViewById(R.id.list_item_img);
+                RoundedImageView fullImage = (RoundedImageView) rootViev.findViewById(R.id.list_item_img);
                 Picasso.with(parent.getContext()).load(show.getImageLink()).into(fullImage);
                 }
             }
@@ -86,7 +86,7 @@ public class NewsAdapter extends BaseAdapter {
                 time.setText(show.getDatetime());
 
                 if (show.getImageLink() != null) {
-                    ImageView image = (ImageView) rootViev.findViewById(R.id.list_item_img_b);
+                    RoundedImageView image = (RoundedImageView) rootViev.findViewById(R.id.list_item_img_b);
                     Picasso.with(parent.getContext()).load(show.getImageLink()).into(image);
                 }
             }
