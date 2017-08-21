@@ -215,7 +215,7 @@ public class NewsParcer extends Service {
                 if(newsSource.select(elementQuery + IMG_LINK_QUERY).size() != 0) {
                     String imgLinkAttr = newsSource.select(elementQuery + IMG_LINK_QUERY).get(0).attr(IMG_LINK_ATTR);
                     item.setImageLink(IMG_LINK_HT + imgLink(imgLinkAttr));
-                    Log.d("IMG!!!!!!!!", imgLink(imgLinkAttr));
+                    Log.d("IMG!!!!!!!!", item.getImageLink());
                 }
                 znaks.add(item);
             }

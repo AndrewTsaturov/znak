@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -19,21 +20,29 @@ import android.widget.ImageView;
  * Created by Андрей on 02.08.2017.
  */
 
-public class RoundedImageView extends android.support.v7.widget.AppCompatImageView {
+public class RoundedImageView extends ImageView {
 
-    int width, heigth;
+    private boolean orientation;
 
-    Paint paintFill;
+    private int width, heigth;
 
-    int color = Color.TRANSPARENT;
+    private Paint paintFill;
+
+    private int color = Color.WHITE;
+
+    public RoundedImageView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init();
+    }
+
+    public RoundedImageView(Context context) {
+        super(context);
+        init();
+    }
 
     public RoundedImageView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-
-        paintFill = new Paint();
-        paintFill.setStyle(Paint.Style.FILL);
-        paintFill.setAntiAlias(true);
-
+        init();
     }
 
     @Override
@@ -41,12 +50,14 @@ public class RoundedImageView extends android.support.v7.widget.AppCompatImageVi
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         width = getMeasuredWidth();
         heigth = getMeasuredHeight();
+        orientation = albumOrientation();
+
+
     }
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-
         View view = getRootView();
         Drawable background = view.getBackground();
         if(background instanceof ColorDrawable)
@@ -57,21 +68,29 @@ public class RoundedImageView extends android.support.v7.widget.AppCompatImageVi
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        circleInside(canvas);
+        circleInside(canvas, orientation);
     }
 
-    private void circleInside(Canvas canvas){
+    private void init(){
+        paintFill = new Paint();
+        paintFill.setStyle(Paint.Style.FILL);
+        paintFill.setAntiAlias(true);
+        paintFill.setColor(color);
+    }
+
+    private void circleInside(Canvas canvas, boolean orientation){
         Path path = new Path();
         path.reset();
-        if(!albumOrientation()){
+        if(!orientation){
             RectF oval = new RectF(0, heigth - (heigth / 2 + width / 2), width, (heigth / 2 + width / 2));
             path.moveTo(0, 0);
             path.lineTo(0, heigth);
             path.lineTo(width, heigth);
             path.lineTo(width, heigth / 2);
-            path.arcTo(oval, 0, 360);
+            path.addOval(oval, Path.Direction.CW);
             path.lineTo(width, 0);
-            path.close();
+            path.lineTo(0, 0);
+
         }
         else {
             RectF oval = new RectF(width - (width / 2 + heigth / 2), 0,(width / 2 + heigth / 2), heigth);
@@ -79,13 +98,14 @@ public class RoundedImageView extends android.support.v7.widget.AppCompatImageVi
             path.lineTo(0, heigth);
             path.lineTo(width, heigth);
             path.lineTo(width, heigth / 2);
-            path.arcTo(oval, 0, 360);
+            path.lineTo(width / 2 + heigth / 2, heigth / 2);
+            path.addOval(oval, Path.Direction.CW);
             path.lineTo(width, heigth / 2);
             path.lineTo(width, 0);
-            path.close();
+            path.lineTo(0, 0);
         }
         canvas.drawPath(path, paintFill);
-
+        Log.d("image view", "drawing circle");
     }
 
     private boolean albumOrientation(){
